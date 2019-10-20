@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 815f5ed5afec58849863bf35530a42a5, type: 3}
+  m_Name: Playtest1Config
+  m_EditorClassIdentifier: 
+  currentColor: 1
+  currentPlayer: 0
+  p1BallPref: {fileID: 3213315183378179623, guid: 1d56af429256147488b82d507574bbf2,
+    type: 3}
+  p2BallPref: {fileID: 6041683669056538994, guid: bea68bcb27962324ea1325cb6de401d8,
+    type: 3}
+  sc: {fileID: 11400000, guid: f811a8a3e1a94cd4d9bd38e73f780161, type: 2}
