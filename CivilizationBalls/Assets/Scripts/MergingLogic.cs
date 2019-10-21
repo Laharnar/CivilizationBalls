@@ -57,6 +57,7 @@ public class MergingLogic : MonoBehaviour, ICreate, IEndOfTurnListener {
 
         MergingLogic otherBall = collision.gameObject.GetComponent<MergingLogic>();
         if (!otherBall) return;
+        
         if (playerID == otherBall.playerID)
         {
             AttemptToMerge(otherBall);
@@ -111,11 +112,28 @@ public class MergingLogic : MonoBehaviour, ICreate, IEndOfTurnListener {
     {
         BallColor settingsThis = ballColorsRef.GetBallColorSettings(ballColor);
         BallColor settingsOther = ballColorsRef.GetBallColorSettings(otherBall.ballColor);
-        if (settingsThis.CanDestroy(otherBall.ballColor))
+        if (settingsOther.CanDestroy(ballColor))
         {
-            Destroy(otherBall.gameObject);
-            Grow(config.sc.scalingMultOnDestroy, config.sc.scalingMode);
+            Debug.Log(ballColor + " Destroying color " + otherBall.ballColor);
+            // after click, player immediatly changes, so actual player
+            // is different than the value.
+            // - destroy other ball
+            if (config.currentPlayer != playerID)
+            {
+                ballColor = settingsThis.GetMergedColorId(otherBall.ballColor);
+                transform.GetComponent<SpriteRenderer>().color = ballColorsRef.GetColor(ballColor);
+
+                Vector2 maxScale = otherBall.transform.localScale;
+                if (transform.localScale.y > maxScale.y)
+                {
+                    maxScale.y = transform.localScale.y;
+                    maxScale.x = transform.localScale.x;
+                }
+                transform.localScale = maxScale;
+
+                Destroy(otherBall.gameObject);
+                Grow(config.sc.scalingMultOnDestroy, config.sc.scalingMode);
+            }
         }
     }
-
 }

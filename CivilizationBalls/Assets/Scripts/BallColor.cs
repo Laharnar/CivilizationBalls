@@ -28,6 +28,7 @@ public class BallColor : ScriptableObject {
                 return mergeNewColor[i];
             }
         }
+        Debug.Log("No merger color for "+otherBallColor);
         return -1;
     }
 

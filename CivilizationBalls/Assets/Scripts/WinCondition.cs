@@ -22,6 +22,8 @@ public class WinCondition : MonoBehaviour
         config.p1Score = 0;
         config.p2Score = 0;
         Reload();
+        SetUpForNextGame(1);
+        StartCoroutine(Overlay());
     }
 
     private void Update()
@@ -48,10 +50,10 @@ public class WinCondition : MonoBehaviour
     private void Win(string v)
     {
         done = true;
-        StartCoroutine(FadeOut(v));
+        StartCoroutine(FadeOutAndNewGame(v));
     }
 
-    IEnumerator FadeOut(string v)
+    IEnumerator FadeOutAndNewGame(string v)
     {
         text.text = "";
         Color c = uiOverlay.color;
@@ -59,11 +61,12 @@ public class WinCondition : MonoBehaviour
         int playerWon = config.currentPlayer;
 
         float t = 0;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
+        uiOverlay.color = Color.Lerp(c, targetCol, t);
         while (t < 1)
         {
+            t += Time.deltaTime*2;
             uiOverlay.color = Color.Lerp(c, targetCol, t);
-            t += Time.deltaTime;
             yield return null;
         }
 
@@ -73,10 +76,32 @@ public class WinCondition : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         yield return new WaitForSeconds(1.75f);
-
         Reload();
-
         SetUpForNextGame(playerWon);
+
+        uiOverlay.color = Color.Lerp(c, targetCol, t);
+        while (t > 0)
+        {
+            t -= Time.deltaTime * 2;
+            uiOverlay.color = Color.Lerp(c, targetCol, t);
+            yield return null;
+        }
+
+    }
+
+    IEnumerator Overlay()
+    {
+        Color c = fadeoutColor;
+        Color targetCol = Color.clear;
+        float t = 0;
+
+        uiOverlay.color = Color.Lerp(c, targetCol, t);
+        while (t < 1)
+        {
+            t += Time.deltaTime * 2;
+            uiOverlay.color = Color.Lerp(c, targetCol, t);
+            yield return null;
+        }
     }
 
     void Reload()
@@ -92,7 +117,6 @@ public class WinCondition : MonoBehaviour
         {
             GameObject.Destroy(config.balls[i].gameObject);
         }
-        Debug.Log("Destroyed "+config.balls.Count);
         config.balls.Clear();
 
         // gui
