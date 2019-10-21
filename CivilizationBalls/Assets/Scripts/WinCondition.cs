@@ -58,7 +58,7 @@ public class WinCondition : MonoBehaviour
         Color targetCol = fadeoutColor;
 
         float t = 0;
-
+        yield return new WaitForSeconds(1);
         while (t < 1)
         {
             uiOverlay.color = Color.Lerp(c, targetCol, t);
@@ -97,8 +97,8 @@ public class WinCondition : MonoBehaviour
         text.text = "";
 
         // platforms
-        p1.ResetLevel();
-        p2.ResetLevel();
+        p1.ResetLevelWhenSomeoneWins();
+        p2.ResetLevelWhenSomeoneWins();
 
 
         // randomly pick first player and color
